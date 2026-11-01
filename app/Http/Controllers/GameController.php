@@ -14,19 +14,15 @@ class GameController extends Controller
     {
         $games = Game::with(['genre', 'platforms']);
 
-        // Bezoekers zien alleen actieve games
         if (!auth()->check()) {
             $games->where('is_active', true);
         } elseif (auth()->user()->role !== 1) {
-
-            // Gebruikers zien actieve games en hun eigen games
             $games->where(function ($query) {
                 $query->where('is_active', true)
                     ->orWhere('user_id', auth()->id());
             });
         }
 
-        // Zoeken op titel, beschrijving en developer
         if ($request->filled('search')) {
             $search = $request->input('search');
 
@@ -37,12 +33,10 @@ class GameController extends Controller
             });
         }
 
-        // Filteren op genre
         if ($request->filled('genre_id')) {
             $games->where('genre_id', $request->input('genre_id'));
         }
 
-        // Filteren op platform
         if ($request->filled('platform_id')) {
             $platformId = $request->input('platform_id');
 
@@ -51,10 +45,7 @@ class GameController extends Controller
             });
         }
 
-        // Games ophalen
         $games = $games->get();
-
-        // Alle genres en platforms ophalen
         $genres = Genre::orderBy('name')->get();
         $platforms = Platform::orderBy('name')->get();
 
@@ -65,7 +56,7 @@ class GameController extends Controller
         ]);
     }
 
-    // Formulier voor nieuwe game
+    // Game toevoegen
     public function create()
     {
         $genres = Genre::all();
@@ -77,7 +68,6 @@ class GameController extends Controller
         ]);
     }
 
-    // Nieuwe game opslaan
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -100,8 +90,6 @@ class GameController extends Controller
         $game->user_id = auth()->id();
 
         $game->save();
-
-        // Platforms koppelen
         $game->platforms()->sync($validated['platforms']);
 
         return redirect()
@@ -112,7 +100,6 @@ class GameController extends Controller
     // Game bewerken
     public function edit(Game $game)
     {
-        // Alleen de eigenaar mag bewerken
         abort_if($game->user_id !== auth()->id(), 403);
 
         $genres = Genre::all();
@@ -125,10 +112,8 @@ class GameController extends Controller
         ]);
     }
 
-    // Game aanpassen
     public function update(Request $request, Game $game)
     {
-        // Alleen de eigenaar mag aanpassen
         abort_if($game->user_id !== auth()->id(), 403);
 
         $validated = $request->validate([
@@ -148,8 +133,6 @@ class GameController extends Controller
         $game->genre_id = $validated['genre_id'];
 
         $game->save();
-
-        // Platforms aanpassen
         $game->platforms()->sync($validated['platforms']);
 
         return redirect()
@@ -160,7 +143,6 @@ class GameController extends Controller
     // Game verwijderen
     public function destroy(Game $game)
     {
-        // Alleen de eigenaar mag verwijderen
         abort_if($game->user_id !== auth()->id(), 403);
 
         $game->delete();
@@ -170,17 +152,14 @@ class GameController extends Controller
             ->with('success', 'Game is verwijderd.');
     }
 
-    // Game activeren of deactiveren
+    // Alleen admin mag games activeren of deactiveren
     public function toggleActive(Game $game)
     {
-        // Alleen admin mag dit
         abort_unless(auth()->user()?->role === 1, 403);
 
         $game->is_active = !$game->is_active;
         $game->save();
 
-        return redirect()
-            ->route('games.index')
-            ->with('success', 'Status is aangepast.');
+        return back()->with('success', 'Status is aangepast.');
     }
 }
