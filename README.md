@@ -1,58 +1,78 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Xtreme Game Catalogue
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Over mijn project
 
-## About Laravel
+Voor het vak Web Application Frameworks heb ik Xtreme Game Catalogue gemaakt met Laravel.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Ik heb gekozen voor een game library omdat ik zelf games leuk vind. Het leek mij leuk om een website te maken waar gebruikers games kunnen bekijken en hun eigen collectie kunnen bijhouden.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Wat kan je doen?
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Op mijn website kunnen bezoekers games bekijken, zoeken en filteren op genre en platform.
 
-## Learning Laravel
+Als je een account hebt en bent ingelogd, kan je ook:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Zelf games toevoegen.
+- Je eigen games aanpassen of verwijderen.
+- Games toevoegen aan je persoonlijke collectie.
+- Aangeven of je een game wilt spelen, aan het spelen bent of hebt uitgespeeld.
+- Reviews plaatsen als je minimaal 3 games hebt uitgespeeld.
+- Je eigen profiel aanpassen.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Admin
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+Ik heb ook een admin rol toegevoegd.
 
-## Agentic Development
+Als admin kom je na het inloggen op het admin dashboard. Daar kan je alle games bekijken en games activeren of deactiveren.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+Normale gebruikers kunnen niet op het admin dashboard komen.
 
-```bash
-composer require laravel/boost --dev
+## Wat heb ik gebruikt?
 
-php artisan boost:install
-```
+Voor mijn project heb ik de volgende dingen gebruikt:
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+- Laravel en PHP voor de werking van de website.
+- Blade voor de pagina's.
+- Tailwind CSS voor de opmaak.
+- Laravel Breeze voor het inloggen en registreren.
+- Eloquent om met de database te werken.
+- SQLite als database.
 
-## Contributing
+## Beveiliging
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Ik heb ervoor gezorgd dat niet iedereen zomaar alles kan aanpassen.
 
-## Code of Conduct
+Een gebruiker mag alleen zijn eigen toegevoegde games bewerken of verwijderen. Ook worden de gegevens gecontroleerd wanneer iemand een game toevoegt of aanpast.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Als iets niet goed is ingevuld, krijgt de gebruiker een foutmelding.
 
-## Security Vulnerabilities
+## Reviews
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Voor het plaatsen van reviews heb ik een extra voorwaarde gemaakt.
 
-## License
+Een gebruiker moet minimaal 3 games hebben uitgespeeld voordat hij een review mag plaatsen.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+In mijn ReviewController controleer ik met Eloquent hoeveel games de gebruiker heeft uitgespeeld.
+
+Als dat minder dan 3 is, kan de gebruiker nog geen review plaatsen.
+
+## Project opstarten
+
+Voor het opstarten heb je PHP, Composer, Node.js en SQLite nodig.
+
+Open de projectmap in een terminal en voer de volgende stappen uit:
+
+1. Installeer de Laravel-bestanden met `composer install`.
+2. Installeer de frontend-bestanden met `npm install`.
+3. Maak een `.env`-bestand aan met `copy .env.example .env` (op Windows).
+4. Genereer een sleutel met `php artisan key:generate`.
+5. Zet `DB_CONNECTION=sqlite` in het `.env`-bestand en maak indien nodig een leeg bestand `database/database.sqlite` aan.
+6. Maak de database klaar met `php artisan migrate --seed`.
+7. Start de frontend met `npm run dev`.
+8. Start Laravel in een tweede terminal met `php artisan serve`.
+
+De website is daarna te openen via `http://localhost:8000`.
+
+## GitHub
+
+Ik heb GitHub gebruikt om mijn voortgang bij te houden. Tijdens het maken van mijn project heb ik meerdere commits gemaakt waarin ik mijn wijzigingen heb opgeslagen.
